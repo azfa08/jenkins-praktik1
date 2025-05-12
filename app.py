@@ -1,10 +1,7 @@
-from flask import Flask
+from app import app
 
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return "Hello from Jenkins Multibranch Pipeline!"
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+def test_hello():
+    client = app.test_client()
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b"Hello from Jenkins Multibranch Pipeline!" in response.data
