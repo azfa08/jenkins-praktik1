@@ -7,6 +7,9 @@ pipeline {
 
     environment {
         VENV = 'venv'
+        PYTHON = './venv/bin/python'
+        PIP = './venv/bin/pip'
+        PYTEST = './venv/bin/pytest'
     }
 
     stages {
@@ -14,9 +17,8 @@ pipeline {
             steps {
                 sh '''
                     python -m venv $VENV
-                    . $VENV/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    $PIP install --upgrade pip
+                    $PIP install -r requirements.txt
                 '''
             }
         }
@@ -24,8 +26,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    . $VENV/bin/activate
-                    pytest test_app.py
+                    $PYTEST test_app.py
                 '''
             }
         }
